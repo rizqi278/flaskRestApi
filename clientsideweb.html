@@ -14,23 +14,23 @@
 
 	<h2 class="mb-5 text-center">Tugas Web Service</h2>
 
-	<form method="POST" action="">
+	<form id="form1" method="POST" onsubmit="return false">
 	<div class="form-group">
 		<label > First Name </label>
-        <input type="text" class="form-control" value=""  name="firstname">
+        <input type="text" class="form-control" value=""  name="firstname" id="firstname">
         <small class="form-text text-muted">Input your first name</small>
 	</div>
 	<div class="form-group">
 		<label>Last Name </label>
-		<input type="text" class="form-control" value="" name="lastname">
+		<input type="text" class="form-control" value="" name="lastname" id="lastname">
 		<small class="form-text text-muted">Input your last name</small>
 	</div>
 	<div class="form-group">
 		<label>Email </label>
-		<input type="text" class="form-control" value="" name="email">
+		<input type="text" class="form-control" value="" name="email" id="email">
 		<small class="form-text text-muted">Input your Email</small>
 	</div>
-	<button type="submit" class="btn btn-primary">Submit</button>
+	<button type="submit" class="btn btn-primary" id="coba">Submit</button>
 	</form>
     <br>
 	<table class="table table-striped">
@@ -94,6 +94,30 @@ $.ajax({
             location.reload()
         }
         });
+});
+//POST
+$(document).ready(function(){
+$('#coba').click(function(){
+    var x=document.getElementById("firstname").value;
+    var y=document.getElementById("lastname").value;
+    var z=document.getElementById("email").value;
+$.ajax({
+        type:'POST',
+        crossDomain: true,
+        url: 'https://rizqi.pythonanywhere.com/user?firstname='+x+'&lastname='+y+'&email='+z,
+        data:{},
+        'contentType': 'application/x-www-form-urlencoded',
+        error:function(xhr, ajaxOptions, thrownError){
+        alert("Error");
+        },
+        cache:false,
+        beforeSend:function(request){
+        },
+        success:function(s){
+            location.reload()
+        }
+        });
+});
 });
 </script>
 
