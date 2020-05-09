@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Tugas Web service</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<body>
+
+	<div class="container mt-5">
+
+	<h2 class="mb-5 text-center">Tugas Web Service</h2>
+
+	<form method="POST" action="">
+	<div class="form-group">
+		<label > First Name </label>
+        <input type="text" class="form-control" value=""  name="firstname">
+        <small class="form-text text-muted">Input your first name</small>
+	</div>
+	<div class="form-group">
+		<label>Last Name </label>
+		<input type="text" class="form-control" value="" name="lastname">
+		<small class="form-text text-muted">Input your last name</small>
+	</div>
+	<div class="form-group">
+		<label>Email </label>
+		<input type="text" class="form-control" value="" name="email">
+		<small class="form-text text-muted">Input your Email</small>
+	</div>
+	<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+    <br>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			<th scope="col">ID</th>
+			<th scope="col">First Name</th>
+			<th scope="col">Last Name</th>
+			<th scope="col">Email </th>
+			<th scope="col">Action</th>
+			</tr>
+		</thead>
+		<tbody name="hasil" id="hasil">
+    </tbody>
+  </table>
+</div>
+<br>
+<script type="text/javascript">
+//getdata
+$(document).ready(function(){
+$.ajax({
+        type:'GET',
+        crossDomain: true,
+        url: "https://rizqi.pythonanywhere.com/user",
+        data:{},
+        'contentType': 'application/x-www-form-urlencoded',
+        error:function(xhr, ajaxOptions, thrownError){
+        alert("Error");
+        },
+        cache:false,
+        beforeSend:function(request){
+        },
+        success:function(s){
+            var getidnya = 0;
+	        for(var a = 0; a < s.length; a++)
+            {
+                getidnya = parseInt(s[a]['id']);
+                $('#hasil').append('<tr><td>' + s[a]['id'] + '</td><td>' + s[a]['firstname'] + '</td><td>' + s[a]['lastname'] + '</td><td>' + s[a]['email'] + '</td><td class="deluser" style="cursor: pointer;" id="' + s[a]['id'] +'"><button class="btn-danger" id="' + s[a]['id'] +'">Delete</button></td></tr>');
+            }
+        }
+        });
+});
+
+$(document).on('click', '.btn-danger', function(){
+   var x = $(this).attr("id");
+   var y ="want to deleted data ?";
+   alert(y);
+$.ajax({
+        type:'DELETE',
+        crossDomain: true,
+        url: "https://rizqi.pythonanywhere.com/user?id="+x,
+        data:{},
+        error:function(xhr, ajaxOptions, thrownError){
+        alert("error");
+        },
+        cache:false,
+        beforeSend:function(request){
+        },
+        success:function(s){
+            console.log(s)
+            location.reload()
+        }
+        });
+});
+</script>
+
+</html>
